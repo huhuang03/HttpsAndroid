@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$USER_HOME$/Developer/source/HttpsAndroid/HttpsAndroid.iml" filepath="$USER_HOME$/Developer/source/HttpsAndroid/HttpsAndroid.iml" />
+      <module fileurl="file://$USER_HOME$/Developer/source/HttpsAndroid/app/app.iml" filepath="$USER_HOME$/Developer/source/HttpsAndroid/app/app.iml" />
+      <module fileurl="file://$USER_HOME$/Developer/source/HttpsAndroid/thyi/thyi.iml" filepath="$USER_HOME$/Developer/source/HttpsAndroid/thyi/thyi.iml" />
+    </modules>
+  </component>
+</project>
