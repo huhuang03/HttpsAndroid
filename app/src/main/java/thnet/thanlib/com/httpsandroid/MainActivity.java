@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -24,15 +24,20 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import thnet.thanlib.com.thyi.Thyi;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tv = (TextView) findViewById(R.id.tv);
+        Log.setTextView(tv);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -50,23 +55,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getIp(Context context) {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                URL url = null;
-//                try {
-//                    url = new URL("https://kyfw.12306.cn/otn");
-//                    URLConnection urlConnection = url.openConnection();
-//                    Log.i(TAG, "run: " + Thread.currentThread().getName());
-//                    InputStream in = urlConnection.getInputStream();
-//                    copyInputStreamToOutputStream(in, System.out);
-//                }  catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
         String url = "http://freegeoip.net/json/";
         Thyi.request(context, Thyi.GET, url, null, LocData.class)
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<LocData>() {
                     @Override
                     public void onCompleted() {
@@ -75,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i(TAG, "onError: ");
+                        e.printStackTrace();
+                        Log.i(TAG, "onError: " );
                     }
 
                     @Override
@@ -90,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
      * @param context
      */
     public void getWikiHttps(Context context) {
-        Thyi.request(context, Thyi.GET, "https://wikipedia.org", null, String.class)
+        Thyi.request(context, "https://wikipedia.org")
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
@@ -99,12 +91,12 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i(TAG, "onError: ");
+                        Log.i(TAG, "onError: " + e);
                     }
 
                     @Override
                     public void onNext(String s) {
-                        Log.i(TAG, "onNext: ");
+                        Log.i(TAG, "onNext: " + s);
                     }
                 });
     }
@@ -115,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
      * @param context
      */
     public void get12306Https(Context context) {
-        Thyi.request(context, Thyi.GET, "https://kyfw.12306.cn/otn", null, String.class)
+        Thyi.request(context, "https://kyfw.12306.cn/otn")
                 .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
@@ -202,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         InputStream caInput = null;
         Certificate ca = null;
         try {
-            caInput = new BufferedInputStream(getAssets().open("kyfw.12306.cn.cer"));
+            caInput = new BufferedInputStream(getAssets().open("https://127.0.0.1/phpHttpsTest/index.php"));
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             ca = cf.generateCertificate(caInput);
         } catch (Exception e)  {
@@ -236,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     URL url = null;
                     try {
-                        url = new URL("https://freegeoip.net/json/");
+                        url = new URL("https://127.0.0.1/phpHttpsTest/index.php");
                         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
                         urlConnection.setSSLSocketFactory(sslContext.getSocketFactory());
                         InputStream in = urlConnection.getInputStream();
@@ -285,4 +277,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        Log.clearTextView();
+        super.onDestroy();
+    }
 }

@@ -15,9 +15,10 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+
+        maven {
+            url 'file:///Users/yi/Developer/repo/Android/'
+        }
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
