@@ -24,7 +24,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import thnet.thanlib.com.thyi.Thyi;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
 //                getIp(MainActivity.this);
 //                getWikiHttps(MainActivity.this);
 //                get12306Https(MainActivity.this);
-//                get12306OverSelfCA(MainActivity.this);
-                getServerHasNoCA(MainActivity.this);
+                get12306OverSelfCA(MainActivity.this);
+//                getServerHasNoCA(MainActivity.this);
             }
         });
     }
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     private void getIp(Context context) {
         String url = "http://freegeoip.net/json/";
         Thyi.request(context, Thyi.GET, url, null, LocData.class)
-                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<LocData>() {
                     @Override
                     public void onCompleted() {

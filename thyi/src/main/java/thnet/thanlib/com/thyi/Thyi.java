@@ -42,7 +42,7 @@ public class Thyi {
             public void call(Subscriber<? super T> subscriber) {
                 initRequestQueue(context);
                 VolleyObjectRequest<T> request = new VolleyObjectRequest<>(getRequestMethod(method), url, clazz, subscriber);
-                request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
+                request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, 5.0f));
                 requestQueue.add(request);
             }
         };
