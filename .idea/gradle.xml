@@ -9,14 +9,12 @@
           <set>
             <option value="$USER_HOME$/Developer/source/HttpsAndroid" />
             <option value="$USER_HOME$/Developer/source/HttpsAndroid/app" />
-            <option value="$USER_HOME$/Developer/source/HttpsAndroid/thyi" />
           </set>
         </option>
         <option name="myModules">
           <set>
             <option value="$USER_HOME$/Developer/source/HttpsAndroid" />
             <option value="$USER_HOME$/Developer/source/HttpsAndroid/app" />
-            <option value="$USER_HOME$/Developer/source/HttpsAndroid/thyi" />
           </set>
         </option>
       </GradleProjectSettings>
